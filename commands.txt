@@ -1,0 +1,42 @@
+##
+# Databases
+##
+
+# redis
+kubectl apply -f redis-service.yml
+kubectl apply -f redis-deployment.yml
+
+# postgres
+# => your turn (use redis-service.yml and redis-deployment.yml as template)
+# * create postgres-deployment.yml and postgres-service.yml
+# * Use image postgres:9.4 and call it postgres
+# * Use port 5432 and call it postgres-service
+
+##
+# Services
+##
+
+cd vote
+docker build -t 127.0.0.1:30000/vote:1.0.0 .
+docker push 127.0.0.1:30000/vote:1.0.0
+kubectl apply -f vote-service.yml
+kubectl apply -f vote-deployment.yml
+cd ..
+
+# Same for result -> your turn (use folder result/)
+# Same for worker -> your turn (use folder worker/, no Service needed)
+
+# get ports of services vote and result and vote
+kubectl get svc
+
+#
+# Not interested in star wars vs star trek?
+# Let's change our vote :)
+# checkout vote & result apps and modify the names of option A and B
+# rebuild and repush (increment the version)
+#
+
+# Apply upates (don't forget to update versions in .yml)
+kubectl apply -f vote-deployment.yml
+kubectl apply -f result-deployment.yml
+
